@@ -12,6 +12,7 @@ public class UserDAO {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.executeUpdate();
             ps.close();
+            System.out.println("Registrazione effettuata");
         }catch (SQLException e){
             System.err.println("Errore durante l'inserimento nel database: " + e.getMessage());
         }

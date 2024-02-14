@@ -4,9 +4,9 @@ import ORM.UserDAO;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-public class UserController {
+public class LoginController {
 
-    public UserController() {}
+    public LoginController() {}
 
     public void register() throws SQLException, ClassNotFoundException {
         Scanner scanner = new Scanner(System.in);

@@ -1,13 +1,18 @@
-import DomainModel.*;
-import ORM.*;
 import BusinessLogic.*;
+import ORM.CarDAO;
 
 import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        UserController uc = new UserController();
+        //TEST
+
+        AdminController ac = new AdminController();
+        ac.addMoped();
+
+        /*
+        LoginController uc = new LoginController();
         Scanner scanner = new Scanner(System.in);
         int x;
         do {
@@ -21,6 +26,6 @@ public class Main {
             }else {
                 System.out.println("Scelta non valida");
             }
-        }while(x!=0 && x!=1);
+        }while(x!=0 && x!=1);*/
     }
 }
