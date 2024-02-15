@@ -1,10 +1,12 @@
 package BusinessLogic;
 
 import DomainModel.Car;
+import DomainModel.Moped;
 import ORM.CarDAO;
 import ORM.MopedDAO;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AdminController {
@@ -46,5 +48,26 @@ public class AdminController {
 
         MopedDAO mopedDAO = new MopedDAO();
         mopedDAO.insertMoped(plate, model, daily_price,displacement);
+    }
+
+    public void viewCars() throws SQLException, ClassNotFoundException {
+        CarDAO carDAO = new CarDAO();
+        ArrayList<Car> cars = carDAO.selectAllCars();
+        int i = 1;
+        for(Car car:cars){
+           System.out.printf("%d) " + car.getInfo(), i);
+           System.out.println(car.getAssistance().getInfo());
+           i++;
+        }
+    }
+
+    public void viewMopeds() throws SQLException, ClassNotFoundException {
+        MopedDAO mopedDAO = new MopedDAO();
+        ArrayList<Moped> mopeds = mopedDAO.selectAllMopeds();
+        int i = 1;
+        for(Moped moped:mopeds){
+            System.out.printf("%d) " + moped.getInfo() +"\n", i);
+            i++;
+        }
     }
 }

@@ -11,6 +11,16 @@ public class Car extends Vehicle {
         this.assistance = assistance;
     }
 
+    public String getInfo(){
+        String info = String.format("Targa: %s   Modello: %s   Posti: %d   Prezzo Giornaliero: %.2f ",
+                plate, model, nseats, daily_price);
+        if (available){
+            info += "  DISPONIBILE  ";
+        }else
+            info += "  NON DISPONIBILE   ";
+        return info;
+    }
+
     public int getNseats() {
         return nseats;
     }

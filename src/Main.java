@@ -9,10 +9,10 @@ public class Main {
         //TEST
 
         AdminController ac = new AdminController();
-        ac.addMoped();
+        ac.viewMopeds();
 
-        /*
-        LoginController uc = new LoginController();
+
+        /*LoginController uc = new LoginController();
         Scanner scanner = new Scanner(System.in);
         int x;
         do {

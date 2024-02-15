@@ -12,6 +12,8 @@ public abstract class Vehicle {
         this.available = available;
     }
 
+    public String getInfo(){return null;};
+
     public String getModel() {
         return model;
     }
