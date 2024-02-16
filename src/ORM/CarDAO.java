@@ -2,6 +2,7 @@ package ORM;
 
 import DomainModel.Car;
 import DomainModel.RoadsideAssistance;
+import DomainModel.Vehicle;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class CarDAO {
+public class CarDAO extends VehicleDAO{
 
     public void insertCar(String plate, String model, float dailyPrice, int nseats, int assintanceId)
             throws SQLException, ClassNotFoundException {
@@ -26,14 +27,24 @@ public class CarDAO {
         }
     }
 
-    public ArrayList<Car> selectAllCars() throws SQLException, ClassNotFoundException {
-        Connection con = ConnectionManager.getConnection();
-
+    public ArrayList<Vehicle> selectAllCars() throws SQLException, ClassNotFoundException {
         String sql = "SELECT * FROM cars_view join assistance on id=assistance_id";
+        return selectCars(sql);
+    }
+
+    public ArrayList<Vehicle> selectAvailableCars() throws SQLException, ClassNotFoundException {
+        String sql = "SELECT * FROM cars_view join assistance on id=assistance_id WHERE available";
+        return selectCars(sql);
+    }
+
+
+
+    private ArrayList<Vehicle> selectCars(String sql) throws SQLException, ClassNotFoundException {
+        Connection con = ConnectionManager.getConnection();
         PreparedStatement ps = con.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
 
-        ArrayList<Car> cars = new ArrayList<Car>();
+        ArrayList<Vehicle> cars = new ArrayList<Vehicle>();
         while (rs.next()) {
             String plate = rs.getString("plate");
             int nseats = rs.getInt("nseats");
@@ -49,6 +60,6 @@ public class CarDAO {
         }
         ps.close();
         return cars;
-    }
 
+    }
 }

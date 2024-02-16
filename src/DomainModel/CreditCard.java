@@ -1,11 +1,7 @@
 package DomainModel;
 
 public class CreditCard implements PaymentStrategy{
-    private float commission;
-
-    public CreditCard(float commission) {
-        this.commission = commission;
-    }
+    private float commission = 0.1F;
 
     public float getCommission() {
         return commission;

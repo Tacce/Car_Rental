@@ -1,4 +1,6 @@
 package ORM;
+import DomainModel.User;
+
 import java.sql.*;
 
 public class UserDAO {
@@ -18,23 +20,27 @@ public class UserDAO {
         }
     }
 
-    public boolean login(String username, String password) throws SQLException, ClassNotFoundException {
+    public User login(String username, String password) throws SQLException, ClassNotFoundException {
         Connection con = ConnectionManager.getConnection();
-        String sql = String.format("SELECT password FROM users WHERE username = '%s'", username);
+        String sql = String.format("SELECT * FROM users WHERE username = '%s'", username);
         PreparedStatement ps = con.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
             String passwordFromDatabase = rs.getString("password");
             if (password.equals(passwordFromDatabase)) {
                 System.out.println("Login riuscito!");
-                return true;
+                String name = rs.getString("name");
+                String surname = rs.getString("surname");
+                String license = rs.getString("license");
+                int age = rs.getInt("age");
+                return new User(name, surname, username, password, license,age);
             } else {
                 System.out.println("Username o password non validi.");
-                return false;
+                return null;
             }
         } else {
             System.out.println("Username non trovato.");
-            return false;
+            return null;
         }
 
 

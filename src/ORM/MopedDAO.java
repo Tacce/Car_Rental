@@ -1,8 +1,7 @@
 package ORM;
 
-import DomainModel.Car;
 import DomainModel.Moped;
-import DomainModel.RoadsideAssistance;
+import DomainModel.Vehicle;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class MopedDAO {
+public class MopedDAO extends VehicleDAO{
     public void insertMoped(String plate, String model, float dailyPrice, int displacement) throws SQLException, ClassNotFoundException {
         Connection con = ConnectionManager.getConnection();
         String sql = String.format("INSERT INTO mopeds_view (plate, model, daily_price, displacement, available)" +
@@ -25,14 +24,22 @@ public class MopedDAO {
         }
     }
 
-    public ArrayList<Moped> selectAllMopeds() throws SQLException, ClassNotFoundException {
-        Connection con = ConnectionManager.getConnection();
-
+    public ArrayList<Vehicle> selectAllMopeds() throws SQLException, ClassNotFoundException {
         String sql = "SELECT * FROM mopeds_view";
+        return selectMopeds(sql);
+    }
+
+    public ArrayList<Vehicle> selectAvailableMopeds() throws SQLException, ClassNotFoundException {
+        String sql = "SELECT * FROM mopeds_view WHERE available";
+        return selectMopeds(sql);
+    }
+
+    private ArrayList<Vehicle> selectMopeds(String sql) throws SQLException, ClassNotFoundException {
+        Connection con = ConnectionManager.getConnection();
         PreparedStatement ps = con.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
 
-        ArrayList<Moped> mopeds = new ArrayList<Moped>();
+        ArrayList<Vehicle> mopeds = new ArrayList<Vehicle>();
 
         while (rs.next()) {
             String plate = rs.getString("plate");

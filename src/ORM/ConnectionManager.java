@@ -14,7 +14,6 @@ public class ConnectionManager {
         Class.forName("org.postgresql.Driver");
         if (con == null)
             con = DriverManager.getConnection(url, username, password);
-
         return con;
     }
 }

@@ -1,5 +1,7 @@
 package DomainModel;
 
+import java.util.ArrayList;
+
 public abstract class Vehicle {
     protected String model, plate;
     protected float daily_price;
@@ -10,6 +12,14 @@ public abstract class Vehicle {
         this.plate = plate;
         this.daily_price = daily_price;
         this.available = available;
+    }
+
+    public static void printVehicleArray(ArrayList<Vehicle> vehicles){
+        int i = 1;
+        for(Vehicle vehicle:vehicles){
+            System.out.printf("%d) " + vehicle.getInfo() +"\n", i);
+            i++;
+        }
     }
 
     public String getInfo(){return null;};

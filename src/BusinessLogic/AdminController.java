@@ -2,6 +2,7 @@ package BusinessLogic;
 
 import DomainModel.Car;
 import DomainModel.Moped;
+import DomainModel.Vehicle;
 import ORM.CarDAO;
 import ORM.MopedDAO;
 
@@ -26,7 +27,6 @@ public class AdminController {
         System.out.println("Inserisci assicurazione (0 per default): ");
         int assintance_id = scanner.nextInt();
         scanner.nextLine();
-        scanner.close();
 
         CarDAO carDAO = new CarDAO();
         carDAO.insertCar(plate, model, daily_price, nseats, assintance_id);
@@ -44,30 +44,19 @@ public class AdminController {
         System.out.println("Inserisci cilindrata: ");
         int displacement = scanner.nextInt();
         scanner.nextLine();
-        scanner.close();
 
         MopedDAO mopedDAO = new MopedDAO();
         mopedDAO.insertMoped(plate, model, daily_price,displacement);
     }
 
-    public void viewCars() throws SQLException, ClassNotFoundException {
+    public void viewAllVehicles() throws SQLException, ClassNotFoundException {
         CarDAO carDAO = new CarDAO();
-        ArrayList<Car> cars = carDAO.selectAllCars();
-        int i = 1;
-        for(Car car:cars){
-           System.out.printf("%d) " + car.getInfo(), i);
-           System.out.println(car.getAssistance().getInfo());
-           i++;
-        }
-    }
-
-    public void viewMopeds() throws SQLException, ClassNotFoundException {
+        ArrayList<Vehicle> cars = carDAO.selectAllCars();
+        System.out.println("AUTOMOBILI\n");
+        Vehicle.printVehicleArray(cars);
         MopedDAO mopedDAO = new MopedDAO();
-        ArrayList<Moped> mopeds = mopedDAO.selectAllMopeds();
-        int i = 1;
-        for(Moped moped:mopeds){
-            System.out.printf("%d) " + moped.getInfo() +"\n", i);
-            i++;
-        }
+        ArrayList<Vehicle> mopeds = mopedDAO.selectAllMopeds();
+        System.out.println("\nMOTORINI\n");
+        Vehicle.printVehicleArray(mopeds);
     }
 }
