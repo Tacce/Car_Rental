@@ -36,5 +36,10 @@ public class User {
     public int getAge() {
         return age;
     }
+
+    public String getInfo() {
+        return String.format("Nome Utente: %s   Nome: %s   Cognome: %s   Età: %d   Codice Patente: %s   Password: %s",
+                username, name, surname, age, licence_code, password);
+    }
 }
 

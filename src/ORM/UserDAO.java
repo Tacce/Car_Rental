@@ -1,7 +1,10 @@
 package ORM;
+import DomainModel.Moped;
 import DomainModel.User;
+import DomainModel.Vehicle;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class UserDAO {
 
@@ -42,7 +45,27 @@ public class UserDAO {
             System.out.println("Username non trovato.");
             return null;
         }
+    }
 
+    public ArrayList<User> selectAllUsers() throws SQLException, ClassNotFoundException {
+        Connection con = ConnectionManager.getConnection();
+        String sql = "SELECT * FROM users";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
 
+        ArrayList<User> users = new ArrayList<User>();
+        while (rs.next()) {
+            String name = rs.getString("name");
+            String surname = rs.getString("surname");
+            String username = rs.getString("username");
+            String password = rs.getString("password");
+            String license = rs.getString("license");
+            int age = rs.getInt("age");
+
+            User user = new User(name, surname, username, password, license, age);
+            users.add(user);
+        }
+        ps.close();
+        return users;
     }
 }

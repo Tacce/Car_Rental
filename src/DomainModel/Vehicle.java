@@ -21,7 +21,6 @@ public abstract class Vehicle {
             i++;
         }
     }
-
     public String getInfo(){return null;};
 
     public String getModel() {

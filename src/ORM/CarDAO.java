@@ -37,8 +37,6 @@ public class CarDAO extends VehicleDAO{
         return selectCars(sql);
     }
 
-
-
     private ArrayList<Vehicle> selectCars(String sql) throws SQLException, ClassNotFoundException {
         Connection con = ConnectionManager.getConnection();
         PreparedStatement ps = con.prepareStatement(sql);
@@ -60,6 +58,18 @@ public class CarDAO extends VehicleDAO{
         }
         ps.close();
         return cars;
+    }
 
+    public void removeCar(String plate) throws SQLException, ClassNotFoundException {
+        Connection con = ConnectionManager.getConnection();
+        String sql = String.format("DELETE FROM cars_view WHERE plate = '%s'",plate);
+        try{
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.executeUpdate();
+            ps.close();
+            System.out.println("Rimozione auto riuscita");
+        }catch (SQLException e){
+            System.err.println("Errore durante la rimozione dal database: " + e.getMessage());
+        }
     }
 }

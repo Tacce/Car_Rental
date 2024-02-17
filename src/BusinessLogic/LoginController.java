@@ -3,7 +3,6 @@ import DomainModel.User;
 import ORM.UserDAO;
 
 import java.sql.SQLException;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class LoginController {

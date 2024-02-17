@@ -54,4 +54,17 @@ public class MopedDAO extends VehicleDAO{
         ps.close();
         return mopeds;
     }
+
+    public void removeMoped(String plate) throws SQLException, ClassNotFoundException {
+        Connection con = ConnectionManager.getConnection();
+        String sql = String.format("DELETE FROM mopeds_view WHERE plate = '%s'",plate);
+        try{
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.executeUpdate();
+            ps.close();
+            System.out.println("Rimozione motorino riuscita");
+        }catch (SQLException e){
+            System.err.println("Errore durante la rimozione dal database: " + e.getMessage());
+        }
+    }
 }
