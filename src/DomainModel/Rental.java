@@ -13,6 +13,11 @@ public class Rental {
         this.payment_method = payment_method;
     }
 
+    public String getInfo(){
+        return String.format("Utente: %s   Veicolo: %s (%s)   Metodo di pagamento: %s   %d giorni",
+                user.getUsername(), vehicle.getModel(), vehicle.getPlate(), payment_method.getName(), ndays);
+    }
+
     public User getUser() {
         return user;
     }

@@ -1,7 +1,5 @@
 package ORM;
-import DomainModel.Moped;
-import DomainModel.User;
-import DomainModel.Vehicle;
+import DomainModel.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -67,5 +65,23 @@ public class UserDAO {
         }
         ps.close();
         return users;
+    }
+
+    public User getUser(String username) throws SQLException, ClassNotFoundException {
+        Connection con = ConnectionManager.getConnection();
+        String sql = String.format("SELECT * FROM users WHERE username = '%s'", username);
+        PreparedStatement ps = con.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        User user = null;
+        if (rs.next()) {
+            String name = rs.getString("name");
+            String surname = rs.getString("surname");
+            String password = rs.getString("password");
+            String license = rs.getString("license");
+            int age = rs.getInt("age");
+
+            user = new User(name, surname, username, password, license, age);
+        }
+        return user;
     }
 }

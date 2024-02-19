@@ -33,6 +33,10 @@ public class UserController {
         ArrayList<Vehicle> cars = carDAO.selectAvailableCars();
         Vehicle.printVehicleArray(cars);
         int n = cars.size();
+        if(n==0){
+            System.out.println("Nessun'auto disponibile");
+            return;
+        }
         Scanner scanner =new Scanner(System.in);
         int x;
         do{
@@ -41,7 +45,7 @@ public class UserController {
             scanner.nextLine();
         }while (x<0 || x>n);
 
-        RentVehicle(cars.get(x-1).getPlate());
+        RentVehicle(cars.get(x-1).getPlate(), 0);
     }
 
     public void RentMoped() throws SQLException, ClassNotFoundException {
@@ -49,6 +53,10 @@ public class UserController {
         ArrayList<Vehicle> mopeds = mopedDAO.selectAvailableMopeds();
         Vehicle.printVehicleArray(mopeds);
         int n = mopeds.size();
+        if(n==0){
+            System.out.println("Nessuna motorino disponibile");
+            return;
+        }
         Scanner scanner =new Scanner(System.in);
         int x;
         do{
@@ -57,10 +65,10 @@ public class UserController {
             scanner.nextLine();
         }while (x<0 || x>n);
 
-        RentVehicle(mopeds.get(x-1).getPlate());
+        RentVehicle(mopeds.get(x-1).getPlate(),1);
     }
 
-    private void RentVehicle(String plate) throws SQLException, ClassNotFoundException {
+    private void RentVehicle(String plate, int code) throws SQLException, ClassNotFoundException {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Inserisci il numero di giorni: ");
@@ -71,9 +79,32 @@ public class UserController {
         scanner.nextLine();
 
         RentalDAO rentalDAO = new RentalDAO();
-        rentalDAO.addRental(myUser.getUsername(), plate, ndays, pm);
+        rentalDAO.addRental(myUser.getUsername(), plate, ndays, pm, code);
         VehicleDAO vehicleDAO = new VehicleDAO();
         vehicleDAO.setAvailable(plate, false);
     }
 
+    public Rental selectRental() throws SQLException, ClassNotFoundException {
+        RentalDAO rentalDAO = new RentalDAO();
+        ArrayList<Rental> rentals = rentalDAO.getUserRental(myUser);
+        int i = 1;
+        for(Rental rental:rentals){
+            System.out.printf("%d) " + rental.getInfo() +"\n", i);
+            i++;
+        }
+        int n = rentals.size();
+        if(n==0){
+            System.out.println("Nessuna prenotazione registrata.");
+            return null;
+        }
+        Scanner scanner = new Scanner(System.in);
+        int x;
+        do{
+            System.out.println("Seleziona Prenotazione: ");
+            x = scanner.nextInt();
+            scanner.nextLine();
+        }while (x<0 || x>n);
+
+        return rentals.get(x-1);
+    }
 }

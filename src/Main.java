@@ -46,6 +46,7 @@ public class Main {
                     0 Visualizza veicoli disponibili
                     1 Noleggia Auto
                     2 Noleggia Motorino
+                    3 Gestisci Prenotazioni
                     -1 ESCI""");
             x = scanner.nextLine();
             switch (x) {
@@ -57,6 +58,36 @@ public class Main {
                     break;
                 case "2":
                     uc.RentMoped();
+                    break;
+                case "3":
+                    Rental rental = uc.selectRental();
+                    if(rental != null){
+                        handleRentalActions(rental);
+                    }
+                    break;
+                case "-1":
+                    break label;
+                default:
+                    System.out.println("Scelta non valida");
+                    break;
+            }
+        }while(true);
+    }
+
+    private static void handleRentalActions(Rental rental) {
+        RentalController rc = new RentalController(rental);
+        Scanner scanner = new Scanner(System.in);
+        String x;
+        label:
+        do {
+            System.out.println("""
+                    \nCOMANDI:
+                    0 Mostra Dettagli Veicolo
+                    -1 ESCI""");
+            x = scanner.nextLine();
+            switch (x) {
+                case "0":
+                    System.out.println(rental.getVehicle().getInfo());
                     break;
                 case "-1":
                     break label;
@@ -81,6 +112,7 @@ public class Main {
                     3 Rimuovi Auto
                     4 Rimuovi Motorino
                     5 Visualizza Dati Utenti
+                    6 Visualizza Noleggi
                     -1 ESCI""");
             x = scanner.nextLine();
             switch (x) {
@@ -99,8 +131,12 @@ public class Main {
                 case "4":
                     ac.removeMoped();
                     break;
-                case"5":
+                case "5":
                     ac.viewAllUsers();
+                    break;
+                case "6":
+                    ac.viewAllRentals();
+                    break;
                 case "-1":
                     break label;
                 default:

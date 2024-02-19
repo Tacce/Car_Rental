@@ -1,6 +1,8 @@
 package ORM;
 
+import DomainModel.Car;
 import DomainModel.Moped;
+import DomainModel.RoadsideAssistance;
 import DomainModel.Vehicle;
 
 import java.sql.Connection;
@@ -66,5 +68,22 @@ public class MopedDAO extends VehicleDAO{
         }catch (SQLException e){
             System.err.println("Errore durante la rimozione dal database: " + e.getMessage());
         }
+    }
+
+    public Moped getMoped(String plate) throws SQLException, ClassNotFoundException {
+        Connection con = ConnectionManager.getConnection();
+        String sql = String.format("SELECT * FROM mopeds_view WHERE plate='%s'", plate);
+        PreparedStatement ps = con.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        Moped moped = null;
+        if (rs.next()) {
+            String model = rs.getString("model");
+            float dailyPrice = rs.getFloat("daily_price");
+            boolean available = rs.getBoolean("available");
+            int displacement = rs.getInt("displacement");
+
+            moped = new Moped(model, plate, dailyPrice, available, displacement);
+        }
+        return moped;
     }
 }

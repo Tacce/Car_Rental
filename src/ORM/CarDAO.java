@@ -72,4 +72,24 @@ public class CarDAO extends VehicleDAO{
             System.err.println("Errore durante la rimozione dal database: " + e.getMessage());
         }
     }
+
+    public Car getCar(String plate) throws SQLException, ClassNotFoundException {
+        Connection con = ConnectionManager.getConnection();
+        String sql = String.format("SELECT * FROM cars_view join assistance on id=assistance_id WHERE plate='%s'", plate);
+        PreparedStatement ps = con.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        Car car = null;
+        if (rs.next()) {
+            int nseats = rs.getInt("nseats");
+            String model = rs.getString("model");
+            float dailyPrice = rs.getFloat("daily_price");
+            boolean available = rs.getBoolean("available");
+            String name = rs.getString("name");
+            String phone = rs.getString("phone");
+
+            RoadsideAssistance ra = new RoadsideAssistance(name, phone);
+            car = new Car(model, plate, dailyPrice, available, nseats, ra);
+        }
+        return car;
+    }
 }

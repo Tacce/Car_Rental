@@ -1,17 +1,20 @@
 package ORM;
 
-import DomainModel.Rental;
+import DomainModel.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class RentalDAO {
 
-    public void addRental(String username, String plate, int ndays, int pm) throws SQLException, ClassNotFoundException {
+    public void addRental(String username, String plate, int ndays, int pm, int code)
+            throws SQLException, ClassNotFoundException {
         Connection con = ConnectionManager.getConnection();
-        String sql = String.format("INSERT INTO rentals (user_username,vehicle_plate, ndays, payment_method_id)" +
-                "VALUES ('%s', '%s', '%d', '%d')", username, plate, ndays, pm);
+        String sql = String.format("INSERT INTO rentals (user_username,vehicle_plate, ndays, payment_method_id, vehicle_type)" +
+                "VALUES ('%s', '%s', '%d', '%d', '%d')", username, plate, ndays, pm, code);
         try{
             PreparedStatement ps = con.prepareStatement(sql);
             ps.executeUpdate();
@@ -20,5 +23,54 @@ public class RentalDAO {
         }catch (SQLException e){
             System.err.println("Errore durante l'inserimento nel database: " + e.getMessage());}
     }
+
+    public ArrayList<Rental> getUserRental(User user) throws SQLException, ClassNotFoundException {
+        String sql = String.format("SELECT * FROM rentals WHERE user_username = '%s'", user.getUsername());
+        return getRentals(sql, user);
+    }
+
+    public ArrayList<Rental> getAllRentals() throws SQLException, ClassNotFoundException {
+        String sql = "SELECT * FROM rentals";
+        return getRentals(sql, null);
+    }
+
+    private ArrayList<Rental> getRentals(String sql, User user) throws SQLException, ClassNotFoundException {
+        Connection con = ConnectionManager.getConnection();
+        PreparedStatement ps = con.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        ArrayList<Rental> rentals = new ArrayList<Rental>();
+        while (rs.next()) {
+            String plate = rs.getString("vehicle_plate");
+            int ndays = rs.getInt("ndays");
+            int pm = rs.getInt("payment_method_id");
+            int vt = rs.getInt("vehicle_type");
+
+            PaymentStrategy paymentStrategy;
+            if(pm==0){
+                paymentStrategy = new Cash();
+            }else paymentStrategy = new CreditCard();
+
+            Vehicle v;
+            if(vt==0){
+                CarDAO carDAO = new CarDAO();
+                v = carDAO.getCar(plate);
+            }else{
+                MopedDAO mopedDAO = new MopedDAO();
+                v = mopedDAO.getMoped(plate);
+            }
+
+            if(user == null){
+                UserDAO userDAO = new UserDAO();
+                user = userDAO.getUser(rs.getString("user_username"));
+            }
+
+            Rental rental = new Rental(user,v,ndays,paymentStrategy);
+            rentals.add(rental);
+        }
+        ps.close();
+        return rentals;
+    }
+
 }
 

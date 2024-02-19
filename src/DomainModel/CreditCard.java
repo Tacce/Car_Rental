@@ -6,4 +6,9 @@ public class CreditCard implements PaymentStrategy{
     public float getCommission() {
         return commission;
     }
+
+    @Override
+    public String getName() {
+        return "Carta di Credito";
+    }
 }

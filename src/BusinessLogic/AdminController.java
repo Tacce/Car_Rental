@@ -1,11 +1,11 @@
 package BusinessLogic;
 
-import DomainModel.Car;
-import DomainModel.Moped;
+import DomainModel.Rental;
 import DomainModel.User;
 import DomainModel.Vehicle;
 import ORM.CarDAO;
 import ORM.MopedDAO;
+import ORM.RentalDAO;
 import ORM.UserDAO;
 
 import java.sql.SQLException;
@@ -101,6 +101,16 @@ public class AdminController {
         System.out.println("\nUTENTI\n");
         for(User user:users){
             System.out.printf("%d) " + user.getInfo() +"\n", i);
+            i++;
+        }
+    }
+
+    public void viewAllRentals() throws SQLException, ClassNotFoundException {
+        RentalDAO rentalDAO = new RentalDAO();
+        ArrayList<Rental> rentals = rentalDAO.getAllRentals();
+        int i = 1;
+        for(Rental rental:rentals){
+            System.out.printf("%d) " + rental.getInfo() +"\n", i);
             i++;
         }
     }
