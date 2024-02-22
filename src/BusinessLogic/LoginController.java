@@ -27,7 +27,7 @@ public class LoginController {
         String password = scanner.nextLine();
 
         UserDAO userDAO = new UserDAO();
-        userDAO.register(name, surname, age, license, username, password);
+        userDAO.addUser(name, surname, age, license, username, password);
     }
 
     public User login() throws SQLException, ClassNotFoundException {
@@ -38,7 +38,7 @@ public class LoginController {
         String password = scanner.nextLine();
 
         UserDAO userDAO = new UserDAO();
-        return userDAO.login(username, password);
+        return userDAO.checkPassword(username, password);
     }
 
     public boolean adminLogin() {

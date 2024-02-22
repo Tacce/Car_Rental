@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class UserDAO {
 
-    public void register(String name, String surname, int age, String license, String username, String password)
+    public void addUser(String name, String surname, int age, String license, String username, String password)
             throws SQLException, ClassNotFoundException {
         Connection con = ConnectionManager.getConnection();
         String sql = String.format("INSERT INTO users (username, password, name, surname, age, license) VALUES "+
@@ -21,7 +21,7 @@ public class UserDAO {
         }
     }
 
-    public User login(String username, String password) throws SQLException, ClassNotFoundException {
+    public User checkPassword(String username, String password) throws SQLException, ClassNotFoundException {
         Connection con = ConnectionManager.getConnection();
         String sql = String.format("SELECT * FROM users WHERE username = '%s'", username);
         PreparedStatement ps = con.prepareStatement(sql);
@@ -83,5 +83,18 @@ public class UserDAO {
             user = new User(name, surname, username, password, license, age);
         }
         return user;
+    }
+
+    public void removeUser(String username) throws SQLException, ClassNotFoundException {
+        Connection con = ConnectionManager.getConnection();
+        String sql = String.format("DELETE FROM users WHERE username = '%s'", username);
+        try{
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.executeUpdate();
+            ps.close();
+            System.out.println("Rimozione utente riuscita");
+        }catch (SQLException e){
+            System.err.println("Errore durante la rimozione dal database: " + e.getMessage());
+        }
     }
 }

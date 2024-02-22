@@ -2,6 +2,7 @@
   <library name="postgresql-42.6.0">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/lib/postgresql-42.6.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/junit-platform-console-standalone-1.10.0-M1.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
