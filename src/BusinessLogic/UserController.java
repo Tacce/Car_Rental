@@ -1,10 +1,7 @@
 package BusinessLogic;
 
 import DomainModel.*;
-import ORM.CarDAO;
-import ORM.MopedDAO;
-import ORM.RentalDAO;
-import ORM.VehicleDAO;
+import ORM.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -106,5 +103,17 @@ public class UserController {
         }while (x<0 || x>n);
 
         return rentals.get(x-1);
+    }
+
+    public void resetPassword() throws SQLException, ClassNotFoundException {
+        UserDAO userDAO = new UserDAO();
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Inserisci la tua attuale password: ");
+        String password = scanner.nextLine();
+        if (!password.equals(myUser.getPassword()))
+            return;
+        System.out.println("Inserisci la nuova password: ");
+        String newPassword = scanner.nextLine();
+        userDAO.updatePassword(myUser.getUsername(), newPassword);
     }
 }

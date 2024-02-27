@@ -1,8 +1,11 @@
 package DomainModel;
 
 public interface PaymentStrategy {
-    default int calculate_cost(int total_cost) {
-        return total_cost;
+    default float calculate_cost(float daily_price, int ndays) {
+        return daily_price*ndays;
     }
+
+    default float cancelTax(float daily_price, int ndays){return 0;}
+
     default String getName(){return null;}
 }

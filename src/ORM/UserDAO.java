@@ -97,4 +97,17 @@ public class UserDAO {
             System.err.println("Errore durante la rimozione dal database: " + e.getMessage());
         }
     }
+
+    public void updatePassword(String username, String newPassword) throws SQLException, ClassNotFoundException {
+        Connection con = ConnectionManager.getConnection();
+        String sql = String.format("UPDATE users SET password = '%s' WHERE username='%s'",newPassword, username);
+        try{
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.executeUpdate();
+            ps.close();
+            System.out.println("Modifica riuscita");
+        }catch (SQLException e){
+            System.err.println("Errore durante l'aggiornamento dal database: " + e.getMessage());
+        }
+    }
 }

@@ -47,6 +47,7 @@ public class Main {
                     1 Noleggia Auto
                     2 Noleggia Motorino
                     3 Gestisci Prenotazioni
+                    4 Modifica Password
                     -1 ESCI""");
             x = scanner.nextLine();
             switch (x) {
@@ -65,6 +66,9 @@ public class Main {
                         handleRentalActions(rental);
                     }
                     break;
+                case "4":
+                    uc.resetPassword();
+                    break;
                 case "-1":
                     break label;
                 default:
@@ -74,7 +78,7 @@ public class Main {
         }while(true);
     }
 
-    private static void handleRentalActions(Rental rental) {
+    private static void handleRentalActions(Rental rental) throws SQLException, ClassNotFoundException {
         RentalController rc = new RentalController(rental);
         Scanner scanner = new Scanner(System.in);
         String x;
@@ -83,11 +87,23 @@ public class Main {
             System.out.println("""
                     \nCOMANDI:
                     0 Mostra Dettagli Veicolo
+                    1 Restituisci il Veicolo e Paga
+                    2 Cancella Prenotazione
+                    3 Modifica Numero Giorni di Noleggio
                     -1 ESCI""");
             x = scanner.nextLine();
             switch (x) {
                 case "0":
                     System.out.println(rental.getVehicle().getInfo());
+                    break;
+                case "1":
+                    rc.returnVehicle();
+                    break label;
+                case "2":
+                    rc.CancelRental();
+                    break label;
+                case "3":
+                    rc.modifyNDays();
                     break;
                 case "-1":
                     break label;

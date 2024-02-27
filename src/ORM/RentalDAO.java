@@ -72,5 +72,32 @@ public class RentalDAO {
         return rentals;
     }
 
+    public void removeRental(String username, String plate) throws SQLException, ClassNotFoundException {
+        Connection con = ConnectionManager.getConnection();
+        String sql = String.format("DELETE FROM rentals WHERE user_username='%s' AND vehicle_plate='%s'",
+                username, plate);
+        try{
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.executeUpdate();
+            ps.close();
+            System.out.println("Operazione riuscita");
+        }catch (SQLException e){
+            System.err.println("Errore durante la rimozione dal database: " + e.getMessage());
+        }
+    }
+
+    public void updateNDays(int newNDays, String username, String plate) throws SQLException, ClassNotFoundException {
+        Connection con = ConnectionManager.getConnection();
+        String sql = String.format("UPDATE rentals SET ndays = '%d' WHERE user_username='%s' AND vehicle_plate='%s'",
+                newNDays, username, plate);
+        try{
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.executeUpdate();
+            ps.close();
+            System.out.println("Aggiornamento riuscito");
+        }catch (SQLException e){
+            System.err.println("Errore durante l'aggiornamento dal database: " + e.getMessage());
+        }
+    }
 }
 
