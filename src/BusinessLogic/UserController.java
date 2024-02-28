@@ -10,9 +10,7 @@ import java.util.Scanner;
 public class UserController {
     User myUser;
 
-    public UserController(User myUser) {
-        this.myUser = myUser;
-    }
+    public UserController(User myUser) {this.myUser = myUser;}
 
     public void viewAvailableVehicles() throws SQLException, ClassNotFoundException {
         CarDAO carDAO = new CarDAO();
@@ -32,9 +30,8 @@ public class UserController {
         int n = cars.size();
         if(n==0){
             System.out.println("Nessun'auto disponibile");
-            return;
         }
-        Scanner scanner =new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         int x;
         do{
             System.out.println("Seleziona auto: ");
@@ -42,7 +39,7 @@ public class UserController {
             scanner.nextLine();
         }while (x<0 || x>n);
 
-        RentVehicle(cars.get(x-1).getPlate(), 0);
+        RentVehicle(cars.get(x-1).getPlate(), 0, scanner);
     }
 
     public void RentMoped() throws SQLException, ClassNotFoundException {
@@ -52,7 +49,6 @@ public class UserController {
         int n = mopeds.size();
         if(n==0){
             System.out.println("Nessuna motorino disponibile");
-            return;
         }
         Scanner scanner =new Scanner(System.in);
         int x;
@@ -62,12 +58,10 @@ public class UserController {
             scanner.nextLine();
         }while (x<0 || x>n);
 
-        RentVehicle(mopeds.get(x-1).getPlate(),1);
+        RentVehicle(mopeds.get(x-1).getPlate(),1, scanner);
     }
 
-    private void RentVehicle(String plate, int code) throws SQLException, ClassNotFoundException {
-        Scanner scanner = new Scanner(System.in);
-
+    private void RentVehicle(String plate, int code, Scanner scanner) throws SQLException, ClassNotFoundException {
         System.out.println("Inserisci il numero di giorni: ");
         int ndays = scanner.nextInt();
         scanner.nextLine();
