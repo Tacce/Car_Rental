@@ -71,4 +71,24 @@ class UserControllerTest {
         mopedDAO.removeMoped("renttestplate");
     }
 
+    @Test
+    void resetPasswordTest() throws SQLException, ClassNotFoundException {
+        User user = new User("-", "-", "resettest", "pass1", "-", 0);
+        UserDAO userDAO = new UserDAO();
+        userDAO.addUser("-", "-", 0, "-", "resettest", "pass1");
+
+        UserController userController = new UserController(user);
+        String simulatedInput = "pass1\npass2\n";
+        InputStream originalSystemIn = System.in;
+        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+        userController.resetPassword();
+        System.setIn(originalSystemIn);
+
+        assertEquals(user.getPassword(), "pass2");
+        User user1 = userDAO.getUser("resettest");
+        assertEquals(user1.getPassword(), "pass2");
+
+        userDAO.removeUser("resettest");
+    }
+
 }

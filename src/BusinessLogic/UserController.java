@@ -109,5 +109,6 @@ public class UserController {
         System.out.println("Inserisci la nuova password: ");
         String newPassword = scanner.nextLine();
         userDAO.updatePassword(myUser.getUsername(), newPassword);
+        myUser.setPassword(newPassword);
     }
 }

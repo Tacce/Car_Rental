@@ -100,7 +100,7 @@ public class Main {
                     rc.returnVehicle();
                     break label;
                 case "2":
-                    rc.CancelRental();
+                    rc.cancelRental();
                     break label;
                 case "3":
                     rc.modifyNDays();

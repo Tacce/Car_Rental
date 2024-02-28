@@ -14,7 +14,7 @@ public class RentalController {
         this.myRental = myRental;
     }
 
-    public void CancelRental() throws SQLException, ClassNotFoundException {
+    public void cancelRental() throws SQLException, ClassNotFoundException {
         RentalDAO rentalDAO = new RentalDAO();
         rentalDAO.removeRental(myRental.getUser().getUsername(), myRental.getVehicle().getPlate());
         VehicleDAO vehicleDAO = new VehicleDAO();
@@ -33,9 +33,10 @@ public class RentalController {
     public void modifyNDays() throws SQLException, ClassNotFoundException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Inserisci nuovo numero di giorni: ");
-        int newNDays = scanner.nextInt();
+        int newNdays = scanner.nextInt();
         scanner.nextLine();
         RentalDAO rentalDAO = new RentalDAO();
-        rentalDAO.updateNDays(newNDays, myRental.getUser().getUsername(), myRental.getVehicle().getPlate());
+        rentalDAO.updateNDays(newNdays, myRental.getUser().getUsername(), myRental.getVehicle().getPlate());
+        myRental.setNdays(newNdays);
     }
 }

@@ -41,6 +41,10 @@ public class Rental {
         return ndays;
     }
 
+    public void setNdays(int ndays) {
+        this.ndays = ndays;
+    }
+
     public PaymentStrategy getPayment_method() {
         return payment_method;
     }
