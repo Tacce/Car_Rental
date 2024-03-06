@@ -8,7 +8,7 @@ public class CreditCard implements PaymentStrategy{
     }
 
     @Override
-    public float calculate_cost(float daily_price, int ndays) {
+    public float calculateCost(float daily_price, int ndays) {
         return daily_price * ndays * (1 + commission);
     }
 

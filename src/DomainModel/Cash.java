@@ -7,7 +7,7 @@ public class Cash implements PaymentStrategy{
     }
 
     @Override
-    public float cancelTax(float daily_price, int ndays) {
-        return calculate_cost(daily_price, ndays)/10;
+    public float calculateCancelTax(float daily_price, int ndays) {
+        return calculateCost(daily_price, ndays)/10;
     }
 }

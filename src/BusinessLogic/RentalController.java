@@ -19,7 +19,7 @@ public class RentalController {
         rentalDAO.removeRental(myRental.getUser().getUsername(), myRental.getVehicle().getPlate());
         VehicleDAO vehicleDAO = new VehicleDAO();
         vehicleDAO.setAvailable(myRental.getVehicle().getPlate(), true);
-        myRental.handleCancel();
+        myRental.Cancel();
     }
 
     public void returnVehicle() throws SQLException, ClassNotFoundException {
@@ -27,7 +27,7 @@ public class RentalController {
         rentalDAO.removeRental(myRental.getUser().getUsername(), myRental.getVehicle().getPlate());
         VehicleDAO vehicleDAO = new VehicleDAO();
         vehicleDAO.setAvailable(myRental.getVehicle().getPlate(), true);
-        myRental.handleReturn();
+        myRental.Return();
     }
 
     public void modifyNDays() throws SQLException, ClassNotFoundException {

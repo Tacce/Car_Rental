@@ -34,7 +34,7 @@ class RentalControllerTest {
         RentalController rentalController = new RentalController(rental);
         rentalController.returnVehicle();
 
-        assertEquals(cash.calculate_cost(10, 3),30);
+        assertEquals(cash.calculateCost(10, 3),30);
 
         int finalRentCount = rentalDAO.getUserRental(user).size();
         assertEquals(finalRentCount, initialRentCount - 1);
@@ -66,7 +66,7 @@ class RentalControllerTest {
         RentalController rentalController = new RentalController(rental);
         rentalController.cancelRental();
 
-        assertEquals(creditCard.cancelTax(10, 3),0);
+        assertEquals(creditCard.calculateCancelTax(10, 3),0);
 
         int finalRentCount = rentalDAO.getUserRental(user).size();
         assertEquals(finalRentCount, initialRentCount - 1);
