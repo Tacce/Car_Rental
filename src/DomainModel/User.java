@@ -1,15 +1,15 @@
 package DomainModel;
 
 public class User {
-    private String name, surname, username, password, licence_code;
+    private String name, surname, username, password, licenceCode;
     private int age;
 
-    public User(String name, String surname, String username, String password, String licence_code, int age) {
+    public User(String name, String surname, String username, String password, String licenceCode, int age) {
         this.name = name;
         this.surname = surname;
         this.username = username;
         this.password = password;
-        this.licence_code = licence_code;
+        this.licenceCode = licenceCode;
         this.age = age;
     }
 
@@ -33,8 +33,8 @@ public class User {
         this.password = password;
     }
 
-    public String getLicence_code() {
-        return licence_code;
+    public String getLicenceCode() {
+        return licenceCode;
     }
 
     public int getAge() {
@@ -43,7 +43,7 @@ public class User {
 
     public String getInfo() {
         return String.format("Nome Utente: %s   Nome: %s   Cognome: %s   Età: %d   Codice Patente: %s   Password: %s",
-                username, name, surname, age, licence_code, password);
+                username, name, surname, age, licenceCode, password);
     }
 }
 

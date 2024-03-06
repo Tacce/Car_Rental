@@ -70,7 +70,7 @@ public class UserController {
         scanner.nextLine();
 
         RentalDAO rentalDAO = new RentalDAO();
-        rentalDAO.addRental(myUser.getUsername(), plate, ndays, pm, code);
+        rentalDAO.insertRental(myUser.getUsername(), plate, ndays, pm, code);
         VehicleDAO vehicleDAO = new VehicleDAO();
         vehicleDAO.setAvailable(plate, false);
     }

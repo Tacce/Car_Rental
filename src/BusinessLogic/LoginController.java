@@ -27,7 +27,7 @@ public class LoginController {
         String password = scanner.nextLine();
 
         UserDAO userDAO = new UserDAO();
-        userDAO.addUser(name, surname, age, license, username, password);
+        userDAO.insertUser(name, surname, age, license, username, password);
     }
 
     public User login() throws SQLException, ClassNotFoundException {

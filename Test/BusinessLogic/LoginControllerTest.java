@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class LoginControllerTest {
 
     @Test
-    void testAdminLogin() {
+    void adminLoginTest() {
         LoginController loginController = new LoginController();
         String simulatedInput = "ADMIN\n";
         InputStream originalSystemIn = System.in;
@@ -28,7 +28,7 @@ class LoginControllerTest {
     }
 
     @Test
-    void testRegisterLogin() throws SQLException, ClassNotFoundException {
+    void registerLoginTest() throws SQLException, ClassNotFoundException {
         LoginController loginController = new LoginController();
         String simulatedInput = "testname\ntestsurname\n0\ntestcode\ntestusername\ntestpassword\n";
         InputStream originalSystemIn = System.in;
@@ -44,7 +44,7 @@ class LoginControllerTest {
 
         assertEquals(user.getName(),"testname");
         assertEquals(user.getSurname(),"testsurname");
-        assertEquals(user.getLicence_code(),"testcode");
+        assertEquals(user.getLicenceCode(),"testcode");
         assertEquals(user.getAge(),0);
 
         UserDAO userDAO = new UserDAO();

@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 public abstract class Vehicle {
     protected String model, plate;
-    protected float daily_price;
+    protected float dailyPrice;
     protected boolean available;
 
-    public Vehicle(String model, String plate, float daily_price, boolean available) {
+    public Vehicle(String model, String plate, float dailyPrice, boolean available) {
         this.model = model;
         this.plate = plate;
-        this.daily_price = daily_price;
+        this.dailyPrice = dailyPrice;
         this.available = available;
     }
 
@@ -21,7 +21,7 @@ public abstract class Vehicle {
             i++;
         }
     }
-    public String getInfo(){return null;};
+    public String getInfo(){return null;}
 
     public String getModel() {
         return model;
@@ -31,8 +31,8 @@ public abstract class Vehicle {
         return plate;
     }
 
-    public float getDaily_price() {
-        return daily_price;
+    public float getDailyPrice() {
+        return dailyPrice;
     }
 
     public boolean isAvailable() {

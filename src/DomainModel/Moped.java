@@ -10,7 +10,7 @@ public class Moped extends Vehicle{
 
     public String getInfo(){
         String info = String.format("Targa: %s   Modello: %s   Cilindrata: %d   Prezzo Giornaliero: %.2f ",
-                plate, model, displacement, daily_price);
+                plate, model, displacement, dailyPrice);
         if (available){
             info += "  DISPONIBILE  ";
         }else

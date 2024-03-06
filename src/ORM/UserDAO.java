@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class UserDAO {
 
-    public void addUser(String name, String surname, int age, String license, String username, String password)
+    public void insertUser(String name, String surname, int age, String license, String username, String password)
             throws SQLException, ClassNotFoundException {
         Connection con = ConnectionManager.getConnection();
         String sql = String.format("INSERT INTO users (username, password, name, surname, age, license) VALUES "+

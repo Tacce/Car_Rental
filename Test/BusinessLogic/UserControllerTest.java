@@ -19,7 +19,7 @@ class UserControllerTest {
     void rentCarTest() throws SQLException, ClassNotFoundException {
         User user = new User("-", "-", "renttest", "-", "-", 0);
         UserDAO userDAO = new UserDAO();
-        userDAO.addUser("-", "-", 0, "-", "renttest", "-");
+        userDAO.insertUser("-", "-", 0, "-", "renttest", "-");
 
         CarDAO carDAO = new CarDAO();
         carDAO.insertCar("renttestplate", "-",0,0,0);
@@ -47,7 +47,7 @@ class UserControllerTest {
     void rentMopedTest() throws SQLException, ClassNotFoundException {
         User user = new User("-", "-", "renttest", "-", "-", 0);
         UserDAO userDAO = new UserDAO();
-        userDAO.addUser("-", "-", 0, "-", "renttest", "-");
+        userDAO.insertUser("-", "-", 0, "-", "renttest", "-");
 
         MopedDAO mopedDAO = new MopedDAO();
         mopedDAO.insertMoped("renttestplate", "-",0,0);
@@ -75,7 +75,7 @@ class UserControllerTest {
     void resetPasswordTest() throws SQLException, ClassNotFoundException {
         User user = new User("-", "-", "resettest", "pass1", "-", 0);
         UserDAO userDAO = new UserDAO();
-        userDAO.addUser("-", "-", 0, "-", "resettest", "pass1");
+        userDAO.insertUser("-", "-", 0, "-", "resettest", "pass1");
 
         UserController userController = new UserController(user);
         String simulatedInput = "pass1\npass2\n";

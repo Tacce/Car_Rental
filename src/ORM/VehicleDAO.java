@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class VehicleDAO {
-
     public void setAvailable(String plate, boolean av) throws SQLException, ClassNotFoundException {
         Connection con = ConnectionManager.getConnection();
         String sql = String.format("UPDATE Vehicles SET available = %b WHERE plate = '%s'",av, plate);
@@ -17,5 +16,4 @@ public class VehicleDAO {
             System.err.println("Errore durante l'aggiornamento del database: " + e.getMessage());
         }
     }
-
 }

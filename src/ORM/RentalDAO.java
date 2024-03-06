@@ -9,8 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class RentalDAO {
-
-    public void addRental(String username, String plate, int ndays, int pm, int code)
+    public void insertRental(String username, String plate, int ndays, int pm, int code)
             throws SQLException, ClassNotFoundException {
         Connection con = ConnectionManager.getConnection();
         String sql = String.format("INSERT INTO rentals (user_username,vehicle_plate, ndays, payment_method_id, vehicle_type)" +

@@ -4,28 +4,28 @@ public class Rental {
     private User user;
     private Vehicle vehicle;
     private int ndays;
-    private PaymentStrategy payment_method;
+    private PaymentStrategy paymentMethod;
 
-    public Rental(User user, Vehicle vehicle, int ndays, PaymentStrategy payment_method) {
+    public Rental(User user, Vehicle vehicle, int ndays, PaymentStrategy paymentMethod) {
         this.user = user;
         this.vehicle = vehicle;
         this.ndays = ndays;
-        this.payment_method = payment_method;
+        this.paymentMethod = paymentMethod;
     }
 
     public String getInfo(){
         return String.format("Utente: %s   Veicolo: %s (%s)   Metodo di pagamento: %s   %d giorni",
-                user.getUsername(), vehicle.getModel(), vehicle.getPlate(), payment_method.getName(), ndays);
+                user.getUsername(), vehicle.getModel(), vehicle.getPlate(), paymentMethod.getName(), ndays);
     }
 
     public void handleCancel(){
         String msg = String.format("Tassa per la cancellazione: %.2f €",
-                payment_method.cancelTax(vehicle.daily_price, ndays));
+                paymentMethod.cancelTax(vehicle.dailyPrice, ndays));
         System.out.println(msg);    }
 
     public void handleReturn() {
         String msg = String.format("Costo totale per il noleggio: %.2f €",
-                payment_method.calculate_cost(vehicle.daily_price, ndays));
+                paymentMethod.calculate_cost(vehicle.dailyPrice, ndays));
         System.out.println(msg);
     }
 
@@ -45,7 +45,7 @@ public class Rental {
         this.ndays = ndays;
     }
 
-    public PaymentStrategy getPayment_method() {
-        return payment_method;
+    public PaymentStrategy getPaymentMethod() {
+        return paymentMethod;
     }
 }

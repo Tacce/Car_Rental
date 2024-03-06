@@ -17,7 +17,7 @@ class RentalControllerTest {
     void returnVehicleTest() throws SQLException, ClassNotFoundException {
         User user = new User("-", "-", "usertest", "-", "-", 0);
         UserDAO userDAO = new UserDAO();
-        userDAO.addUser("-", "-", 0, "-", "usertest", "-");
+        userDAO.insertUser("-", "-", 0, "-", "usertest", "-");
 
         Moped moped = new Moped("-", "renttestplate",10,true, 0);
         MopedDAO mopedDAO = new MopedDAO();
@@ -27,7 +27,7 @@ class RentalControllerTest {
         Cash cash = new Cash();
         Rental rental = new Rental(user, moped, 3, cash);
         RentalDAO rentalDAO = new RentalDAO();
-        rentalDAO.addRental("usertest","renttestplate",10, 0, 1);
+        rentalDAO.insertRental("usertest","renttestplate",10, 0, 1);
 
         int initialRentCount = rentalDAO.getUserRental(user).size();
 
@@ -49,7 +49,7 @@ class RentalControllerTest {
     void cancelRentalTest() throws SQLException, ClassNotFoundException {
         User user = new User("-", "-", "usertest", "-", "-", 0);
         UserDAO userDAO = new UserDAO();
-        userDAO.addUser("-", "-", 0, "-", "usertest", "-");
+        userDAO.insertUser("-", "-", 0, "-", "usertest", "-");
 
         Moped moped = new Moped("-", "renttestplate",10,true, 0);
         MopedDAO mopedDAO = new MopedDAO();
@@ -59,7 +59,7 @@ class RentalControllerTest {
         CreditCard creditCard = new CreditCard();
         Rental rental = new Rental(user, moped, 3, creditCard);
         RentalDAO rentalDAO = new RentalDAO();
-        rentalDAO.addRental("usertest","renttestplate",10, 0, 1);
+        rentalDAO.insertRental("usertest","renttestplate",10, 0, 1);
 
         int initialRentCount = rentalDAO.getUserRental(user).size();
 
@@ -81,7 +81,7 @@ class RentalControllerTest {
     void modifyNDaysTest() throws SQLException, ClassNotFoundException {
         User user = new User("-", "-", "usertest", "-", "-", 0);
         UserDAO userDAO = new UserDAO();
-        userDAO.addUser("-", "-", 0, "-", "usertest", "-");
+        userDAO.insertUser("-", "-", 0, "-", "usertest", "-");
 
         Moped moped = new Moped("-", "renttestplate",10,true, 0);
         MopedDAO mopedDAO = new MopedDAO();
@@ -91,7 +91,7 @@ class RentalControllerTest {
         CreditCard creditCard = new CreditCard();
         Rental rental = new Rental(user, moped, 3, creditCard);
         RentalDAO rentalDAO = new RentalDAO();
-        rentalDAO.addRental("usertest","renttestplate",10, 0, 1);
+        rentalDAO.insertRental("usertest","renttestplate",10, 0, 1);
 
         String simulatedInput = "5\n";
         System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));

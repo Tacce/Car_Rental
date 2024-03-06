@@ -1,5 +1,7 @@
 package BusinessLogic;
 
+import DomainModel.Car;
+import DomainModel.Moped;
 import ORM.CarDAO;
 import ORM.MopedDAO;
 import org.junit.jupiter.api.Test;
@@ -27,6 +29,11 @@ class AdminControllerTest {
         int afterInsertSize = carDAO.selectAllCars().size();
         assertEquals(afterInsertSize, initialSize + 1);
 
+        Car car = carDAO.getCar("testplate");
+        assertEquals(car.getModel(), "testmodel");
+        assertEquals(car.getDailyPrice(), 0);
+        assertEquals(car.getPlate(), "testplate");
+
         simulatedInput = String.format("%d\n", afterInsertSize);
         originalSystemIn = System.in;
         System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
@@ -51,6 +58,11 @@ class AdminControllerTest {
 
         int afterInsertSize = mopedDAO.selectAllMopeds().size();
         assertEquals(afterInsertSize, initialSize + 1);
+
+        Moped moped = mopedDAO.getMoped("testplate");
+        assertEquals(moped.getModel(), "testmodel");
+        assertEquals(moped.getDailyPrice(), 0);
+        assertEquals(moped.getPlate(), "testplate");
 
         simulatedInput = String.format("%d\n", afterInsertSize);
         originalSystemIn = System.in;
