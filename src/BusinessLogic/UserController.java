@@ -15,12 +15,18 @@ public class UserController {
     public void viewAvailableVehicles() throws SQLException, ClassNotFoundException {
         CarDAO carDAO = new CarDAO();
         ArrayList<Vehicle> cars = carDAO.selectAvailableCars();
-        System.out.println("AUTOMOBILI\n");
-        Vehicle.printVehicleArray(cars);
+        System.out.println("\nAUTOMOBILI\n");
+        if (cars.size()==0){
+            System.out.println("Nessun'auto disponibile");
+        }else
+            Vehicle.printVehicleArray(cars);
         MopedDAO mopedDAO = new MopedDAO();
         ArrayList<Vehicle> mopeds = mopedDAO.selectAvailableMopeds();
         System.out.println("\nMOTORINI\n");
-        Vehicle.printVehicleArray(mopeds);
+        if (mopeds.size()==0){
+            System.out.println("Nessun motorino disponibile");
+        }else
+            Vehicle.printVehicleArray(mopeds);
     }
 
     public void RentCar() throws SQLException, ClassNotFoundException {
@@ -28,8 +34,9 @@ public class UserController {
         ArrayList<Vehicle> cars = carDAO.selectAvailableCars();
         Vehicle.printVehicleArray(cars);
         int n = cars.size();
-        if(n==0){
+        if(n==0) {
             System.out.println("Nessun'auto disponibile");
+            return;
         }
         Scanner scanner = new Scanner(System.in);
         int x;
@@ -47,8 +54,9 @@ public class UserController {
         ArrayList<Vehicle> mopeds = mopedDAO.selectAvailableMopeds();
         Vehicle.printVehicleArray(mopeds);
         int n = mopeds.size();
-        if(n==0){
+        if(n==0) {
             System.out.println("Nessuna motorino disponibile");
+            return;
         }
         Scanner scanner =new Scanner(System.in);
         int x;
@@ -62,7 +70,7 @@ public class UserController {
     }
 
     private void RentVehicle(String plate, int code, Scanner scanner) throws SQLException, ClassNotFoundException {
-        System.out.println("Inserisci il numero di giorni: ");
+        System.out.println("\nInserisci il numero di giorni: ");
         int ndays = scanner.nextInt();
         scanner.nextLine();
         System.out.println("Inserisci il metodo di pagamento (0-Contanti 1-Carta di Credito): ");

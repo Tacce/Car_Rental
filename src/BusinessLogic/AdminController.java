@@ -16,7 +16,7 @@ public class AdminController {
 
     public void addCar() throws SQLException, ClassNotFoundException {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Inserisci la targa: ");
+        System.out.println("\nInserisci la targa: ");
         String plate = scanner.nextLine();
         System.out.println("Inserisci il modello: ");
         String model = scanner.nextLine();
@@ -36,7 +36,7 @@ public class AdminController {
 
     public void addMoped() throws SQLException, ClassNotFoundException {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Inserisci la targa: ");
+        System.out.println("\nInserisci la targa: ");
         String plate = scanner.nextLine();
         System.out.println("Inserisci il modello: ");
         String model = scanner.nextLine();
@@ -54,19 +54,30 @@ public class AdminController {
     public void viewAllVehicles() throws SQLException, ClassNotFoundException {
         CarDAO carDAO = new CarDAO();
         ArrayList<Vehicle> cars = carDAO.selectAllCars();
-        System.out.println("AUTOMOBILI\n");
-        Vehicle.printVehicleArray(cars);
+        System.out.println("\nAUTOMOBILI\n");
+        if (cars.size()==0){
+            System.out.println("Nessun'auto registrata");
+        }else
+            Vehicle.printVehicleArray(cars);
         MopedDAO mopedDAO = new MopedDAO();
         ArrayList<Vehicle> mopeds = mopedDAO.selectAllMopeds();
         System.out.println("\nMOTORINI\n");
-        Vehicle.printVehicleArray(mopeds);
+        if (mopeds.size()==0){
+            System.out.println("Nessun motorino registrato");
+        }else
+            Vehicle.printVehicleArray(mopeds);
     }
+
 
     public void removeCar() throws SQLException, ClassNotFoundException {
         CarDAO carDAO = new CarDAO();
         ArrayList<Vehicle> cars = carDAO.selectAllCars();
-        Vehicle.printVehicleArray(cars);
         int n = cars.size();
+        if(n==0){
+            System.out.println("Nessun'auto registrata");
+            return;
+        }
+        Vehicle.printVehicleArray(cars);
         Scanner scanner = new Scanner(System.in);
         int x;
         do{
@@ -81,12 +92,16 @@ public class AdminController {
     public void removeMoped() throws SQLException, ClassNotFoundException {
         MopedDAO mopedDAO = new MopedDAO();
         ArrayList<Vehicle> mopeds = mopedDAO.selectAllMopeds();
-        Vehicle.printVehicleArray(mopeds);
         int n = mopeds.size();
+        if(n==0){
+            System.out.println("Nessun motorino registrato");
+            return;
+        }
+        Vehicle.printVehicleArray(mopeds);
         Scanner scanner = new Scanner(System.in);
         int x;
         do{
-            System.out.println("Seleziona auto: ");
+            System.out.println("\nSeleziona auto: ");
             x = scanner.nextInt();
             scanner.nextLine();
         }while (x<0 || x>n);
@@ -97,6 +112,10 @@ public class AdminController {
     public void viewAllUsers() throws SQLException, ClassNotFoundException {
         UserDAO userDAO = new UserDAO();
         ArrayList<User> users = userDAO.selectAllUsers();
+        if(users.size()==0){
+            System.out.println("Nessun utente registrato");
+            return;
+        }
         int i = 1;
         System.out.println("\nUTENTI\n");
         for(User user:users){
@@ -108,6 +127,10 @@ public class AdminController {
     public void viewAllRentals() throws SQLException, ClassNotFoundException {
         RentalDAO rentalDAO = new RentalDAO();
         ArrayList<Rental> rentals = rentalDAO.getAllRentals();
+        if(rentals.size()==0){
+            System.out.println("Nessuna prenotazione registrata");
+            return;
+        }
         int i = 1;
         for(Rental rental:rentals){
             System.out.printf("%d) " + rental.getInfo() +"\n", i);

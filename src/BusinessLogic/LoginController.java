@@ -11,7 +11,7 @@ public class LoginController {
 
     public void register() throws SQLException, ClassNotFoundException {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("REGISTRAZIONE");
+        System.out.println("\nREGISTRAZIONE");
         System.out.println("Inserisci il tuo nome: ");
         String name = scanner.nextLine();
         System.out.println("Inserisci il tuo cognome: ");
@@ -32,7 +32,7 @@ public class LoginController {
 
     public User login() throws SQLException, ClassNotFoundException {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Username: ");
+        System.out.println("\nUsername: ");
         String username = scanner.nextLine();
         System.out.println("Password: ");
         String password = scanner.nextLine();
@@ -43,7 +43,7 @@ public class LoginController {
 
     public boolean adminLogin() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Password Admin: ");
+        System.out.println("\nPassword Admin: ");
         String password = scanner.nextLine();
         return password.equals("ADMIN");
     }

@@ -18,12 +18,12 @@ public class Rental {
                 user.getUsername(), vehicle.getModel(), vehicle.getPlate(), paymentMethod.getName(), ndays);
     }
 
-    public void Cancel(){
+    public void cancel(){
         String msg = String.format("Tassa per la cancellazione: %.2f €",
                 paymentMethod.calculateCancelTax(vehicle.dailyPrice, ndays));
         System.out.println(msg);    }
 
-    public void Return() {
+    public void returnVehicle() {
         String msg = String.format("Costo totale per il noleggio: %.2f €",
                 paymentMethod.calculateCost(vehicle.dailyPrice, ndays));
         System.out.println(msg);
