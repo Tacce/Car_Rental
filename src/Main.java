@@ -1,6 +1,7 @@
 import BusinessLogic.*;
 import DomainModel.*;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -8,6 +9,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         LoginController lc = new LoginController();
         String x;
+        label:
         do {
             System.out.println("""
                     \nCOMANDI:
@@ -16,20 +18,55 @@ public class Main {
                     2 Effettua login come admin
                     -1 ESCI""");
             x = scanner.nextLine();
-            if(x.equals("0")){
-                lc.register();
-            }else if(x.equals("1")) {
-                User user = lc.login();
-                if(user != null){
-                    handleUserAction(user);
+
+            switch (x) {
+                case "0": {
+
+                    System.out.println("\nREGISTRAZIONE");
+                    System.out.println("Inserisci il tuo nome: ");
+                    String name = scanner.nextLine();
+                    System.out.println("Inserisci il tuo cognome: ");
+                    String surname = scanner.nextLine();
+                    System.out.println("Inserisci la tua età: ");
+                    int age = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.println("Inserisci il codice della tua patente: ");
+                    String license = scanner.nextLine();
+                    System.out.println("Inserisci il tuo username: ");
+                    String username = scanner.nextLine();
+                    System.out.println("Inserisci la tua password: ");
+                    String password = scanner.nextLine();
+                    lc.register(name, surname, age, license, username, password);
+                    break;
                 }
-            }else if(x.equals("2") && lc.adminLogin()) {
-                System.out.println("ADMIN entrato");
-                handleAdminAction();
-            }else if(x.equals("-1")){
-                break;
-            }else {
-                System.out.println("Scelta non valida");
+                case "1": {
+
+                    System.out.println("\nUsername: ");
+                    String username = scanner.nextLine();
+                    System.out.println("Password: ");
+                    String password = scanner.nextLine();
+                    User user = lc.login(username, password);
+                    if (user != null) {
+                        handleUserAction(user);
+                    }
+                    break;
+                }
+                case "2": {
+
+                    System.out.println("\nPassword Admin: ");
+                    String password = scanner.nextLine();
+                    if (lc.adminLogin(password)) {
+                        System.out.println("ADMIN entrato");
+                        handleAdminAction();
+                    }
+                    break;
+                }
+                case "-1":
+                    break label;
+
+                default:
+                    System.out.println("Scelta non valida");
+                    break;
             }
         }while(true);
 
@@ -55,20 +92,83 @@ public class Main {
                     uc.viewAvailableVehicles();
                     break;
                 case "1":
-                    uc.RentCar();
-                    break;
-                case "2":
-                    uc.RentMoped();
-                    break;
-                case "3":
-                    Rental rental = uc.selectRental();
-                    if(rental != null){
-                        handleRentalActions(rental);
+
+                    ArrayList<Vehicle> cars = uc.viewAvailableCars();
+                    Vehicle.printVehicleArray(cars);
+                    int n1 = cars.size();
+                    if(n1==0) {
+                        System.out.println("Nessun'auto disponibile");
+                        break;
                     }
+                    int i;
+                    do{
+                        System.out.println("Seleziona auto: ");
+                        i = scanner.nextInt();
+                        scanner.nextLine();
+                    }while (i<=0 || i>n1);
+                    System.out.println("\nInserisci il numero di giorni: ");
+                    int ndaysCar = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.println("Inserisci il metodo di pagamento (0-Contanti 1-Carta di Credito): ");
+                    int pmCar = scanner.nextInt();
+                    scanner.nextLine();
+                    uc.rentVehicle(cars.get(i-1).getPlate(), ndaysCar, pmCar, 0);
                     break;
+
+                case "2":
+
+                    ArrayList<Vehicle> mopeds = uc.viewAvailableMopeds();
+                    Vehicle.printVehicleArray(mopeds);
+                    int n2 = mopeds.size();
+                    if(n2==0) {
+                        System.out.println("Nessuna motorino disponibile");
+                        break;
+                    }
+                    int j;
+                    do{
+                        System.out.println("Seleziona Motorino: ");
+                        j = scanner.nextInt();
+                        scanner.nextLine();
+                    }while (j<=0 || j>n2);
+                    System.out.println("\nInserisci il numero di giorni: ");
+                    int ndaysMoped = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.println("Inserisci il metodo di pagamento (0-Contanti 1-Carta di Credito): ");
+                    int pmMoped = scanner.nextInt();
+                    scanner.nextLine();
+                    uc.rentVehicle(mopeds.get(j-1).getPlate(), ndaysMoped, pmMoped, 0);
+                    break;
+
+                case "3":
+                    ArrayList<Rental> rentals = uc.viewAllRentals();
+                    int l = 1;
+                    for(Rental rental:rentals){
+                        System.out.printf("%d) " + rental.getInfo() +"\n", l);
+                        l++;
+                    }
+                    int n = rentals.size();
+                    if(n==0){
+                        System.out.println("Nessuna prenotazione registrata.");
+                        break;
+                    }
+                    int k;
+                    do{
+                        System.out.println("Seleziona Prenotazione: ");
+                        k = scanner.nextInt();
+                        scanner.nextLine();
+                    }while (k<=0 || k>n);
+                    handleRentalActions(rentals.get(k-1));
+                    break;
+
                 case "4":
-                    uc.resetPassword();
+
+                    System.out.println("Inserisci la tua attuale password: ");
+                    String password = scanner.nextLine();
+                    System.out.println("Inserisci la nuova password: ");
+                    String newPassword = scanner.nextLine();
+                    uc.resetPassword(password, newPassword);
                     break;
+
                 case "-1":
                     break label;
                 default:
@@ -103,8 +203,13 @@ public class Main {
                     rc.cancelRental();
                     break label;
                 case "3":
-                    rc.modifyNDays();
+
+                    System.out.println("\nInserisci nuovo numero di giorni: ");
+                    int newNdays = scanner.nextInt();
+                    scanner.nextLine();
+                    rc.modifyNDays(newNdays);
                     break;
+
                 case "-1":
                     break label;
                 default:
@@ -131,22 +236,80 @@ public class Main {
                     6 Visualizza Noleggi
                     -1 ESCI""");
             x = scanner.nextLine();
+
             switch (x) {
                 case "0":
                     ac.viewAllVehicles();
                     break;
                 case "1":
-                    ac.addCar();
+
+                    System.out.println("\nInserisci la targa: ");
+                    String carPlate = scanner.nextLine();
+                    System.out.println("Inserisci il modello: ");
+                    String carModel = scanner.nextLine();
+                    System.out.println("Inserisci il prezzo giornaliero: ");
+                    float dailyPriceCar = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.println("Inserisci il numero di posti: ");
+                    int nseats = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.println("Inserisci assicurazione (0 per default): ");
+                    int assintanceId = scanner.nextInt();
+                    scanner.nextLine();
+                    ac.addCar(carPlate, carModel, dailyPriceCar, nseats, assintanceId);
                     break;
+
                 case "2":
-                    ac.addMoped();
+
+                    System.out.println("\nInserisci la targa: ");
+                    String mopedPlate = scanner.nextLine();
+                    System.out.println("Inserisci il modello: ");
+                    String mopedModel = scanner.nextLine();
+                    System.out.println("Inserisci il prezzo giornaliero: ");
+                    float dailyPriceMoped = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.println("Inserisci cilindrata: ");
+                    int displacement = scanner.nextInt();
+                    scanner.nextLine();
+                    ac.addMoped(mopedPlate, mopedModel, dailyPriceMoped, displacement);
                     break;
+
                 case "3":
-                    ac.removeCar();
+
+                    ArrayList<Vehicle> cars = ac.viewAllCars();
+                    int n1 = cars.size();
+                    if(n1==0) {
+                        System.out.println("Nessun'auto registrata");
+                        break;
+                    }
+                    Vehicle.printVehicleArray(cars);
+                    int i;
+                    do{
+                        System.out.println("Seleziona auto: ");
+                        i = scanner.nextInt();
+                        scanner.nextLine();
+                    }while (i<=0 || i>n1);
+                    ac.removeCar(cars.get(i-1).getPlate());
                     break;
+
                 case "4":
-                    ac.removeMoped();
+
+                    ArrayList<Vehicle> mopeds = ac.viewAllMopeds();
+                    int n2 = mopeds.size();
+                    if(n2==0){
+                        System.out.println("Nessun motorino registrato");
+                        break;
+                    }
+                    Vehicle.printVehicleArray(mopeds);
+                    int j;
+                    do{
+                        System.out.println("\nSeleziona auto: ");
+                        j = scanner.nextInt();
+                        scanner.nextLine();
+                    }while (j<=0 || j>n2);
+                    ac.removeMoped(mopeds.get(j-1).getPlate());
                     break;
+
                 case "5":
                     ac.viewAllUsers();
                     break;

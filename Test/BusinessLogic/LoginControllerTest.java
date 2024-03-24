@@ -2,11 +2,7 @@ package BusinessLogic;
 import DomainModel.User;
 import ORM.UserDAO;
 import org.junit.jupiter.api.Test;
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.sql.SQLException;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class LoginControllerTest {
@@ -14,33 +10,17 @@ class LoginControllerTest {
     @Test
     void adminLoginTest() {
         LoginController loginController = new LoginController();
-        String simulatedInput = "ADMIN\n";
-        InputStream originalSystemIn = System.in;
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-        assertTrue(loginController.adminLogin());
-
-        System.setIn(originalSystemIn);
-        simulatedInput = "admin\n";
-        originalSystemIn = System.in;
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-        assertFalse(loginController.adminLogin());
-        System.setIn(originalSystemIn);
+        assertTrue(loginController.adminLogin("ADMIN"));
+        assertFalse(loginController.adminLogin("admin"));
     }
 
     @Test
     void registerLoginTest() throws SQLException, ClassNotFoundException {
         LoginController loginController = new LoginController();
-        String simulatedInput = "testname\ntestsurname\n0\ntestcode\ntestusername\ntestpassword\n";
-        InputStream originalSystemIn = System.in;
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-        loginController.register();
-        System.setIn(originalSystemIn);
+        loginController.register("testname","testsurname",0, "testcode",
+                "testusername","testpassword");
 
-        simulatedInput = "testusername\ntestpassword\n";
-        originalSystemIn = System.in;
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-        User user = loginController.login();
-        System.setIn(originalSystemIn);
+        User user = loginController.login("testusername","testpassword");
 
         assertEquals(user.getName(),"testname");
         assertEquals(user.getSurname(),"testsurname");

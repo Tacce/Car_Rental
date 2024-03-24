@@ -3,48 +3,23 @@ import DomainModel.User;
 import ORM.UserDAO;
 
 import java.sql.SQLException;
-import java.util.Scanner;
 
 public class LoginController {
 
     public LoginController() {}
 
-    public void register() throws SQLException, ClassNotFoundException {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\nREGISTRAZIONE");
-        System.out.println("Inserisci il tuo nome: ");
-        String name = scanner.nextLine();
-        System.out.println("Inserisci il tuo cognome: ");
-        String surname = scanner.nextLine();
-        System.out.println("Inserisci la tua età: ");
-        int age = scanner.nextInt();
-        scanner.nextLine();
-        System.out.println("Inserisci il codice della tua patente: ");
-        String license = scanner.nextLine();
-        System.out.println("Inserisci il tuo username: ");
-        String username = scanner.nextLine();
-        System.out.println("Inserisci la tua password: ");
-        String password = scanner.nextLine();
-
+    public void register(String name, String surname, int age, String license, String username, String password)
+            throws SQLException, ClassNotFoundException {
         UserDAO userDAO = new UserDAO();
         userDAO.insertUser(name, surname, age, license, username, password);
     }
 
-    public User login() throws SQLException, ClassNotFoundException {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\nUsername: ");
-        String username = scanner.nextLine();
-        System.out.println("Password: ");
-        String password = scanner.nextLine();
-
+    public User login(String username, String password) throws SQLException, ClassNotFoundException {
         UserDAO userDAO = new UserDAO();
         return userDAO.checkPassword(username, password);
     }
 
-    public boolean adminLogin() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\nPassword Admin: ");
-        String password = scanner.nextLine();
+    public boolean adminLogin(String password) {
         return password.equals("ADMIN");
     }
 }

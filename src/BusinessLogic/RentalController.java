@@ -3,9 +3,7 @@ package BusinessLogic;
 import DomainModel.Rental;
 import ORM.RentalDAO;
 import ORM.VehicleDAO;
-
 import java.sql.SQLException;
-import java.util.Scanner;
 
 public class RentalController {
     Rental myRental;
@@ -30,11 +28,7 @@ public class RentalController {
         myRental.returnVehicle();
     }
 
-    public void modifyNDays() throws SQLException, ClassNotFoundException {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\nInserisci nuovo numero di giorni: ");
-        int newNdays = scanner.nextInt();
-        scanner.nextLine();
+    public void modifyNDays(int newNdays) throws SQLException, ClassNotFoundException {
         RentalDAO rentalDAO = new RentalDAO();
         rentalDAO.updateNDays(newNdays, myRental.getUser().getUsername(), myRental.getVehicle().getPlate());
         myRental.setNdays(newNdays);

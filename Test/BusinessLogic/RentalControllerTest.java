@@ -5,10 +5,7 @@ import ORM.MopedDAO;
 import ORM.RentalDAO;
 import ORM.UserDAO;
 import org.junit.jupiter.api.Test;
-
-import java.io.ByteArrayInputStream;
 import java.sql.SQLException;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class RentalControllerTest {
@@ -93,11 +90,9 @@ class RentalControllerTest {
         RentalDAO rentalDAO = new RentalDAO();
         rentalDAO.insertRental("usertest","renttestplate",10, 0, 1);
 
-        String simulatedInput = "5\n";
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
 
         RentalController rentalController = new RentalController(rental);
-        rentalController.modifyNDays();
+        rentalController.modifyNDays(5);
 
         assertEquals(rental.getNdays(),5);
         assertEquals(rentalDAO.getUserRental(user).get(0).getNdays(),5);

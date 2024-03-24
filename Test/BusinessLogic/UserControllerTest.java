@@ -6,11 +6,7 @@ import ORM.MopedDAO;
 import ORM.RentalDAO;
 import ORM.UserDAO;
 import org.junit.jupiter.api.Test;
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.sql.SQLException;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserControllerTest {
@@ -26,11 +22,7 @@ class UserControllerTest {
         int initialAvailable = carDAO.selectAvailableCars().size();
 
         UserController userController = new UserController(user);
-        String simulatedInput = String.format("%s\n0\n0\n", initialAvailable);
-        InputStream originalSystemIn = System.in;
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-        userController.RentCar();
-        System.setIn(originalSystemIn);
+        userController.rentVehicle("renttestplate", 0, 0,0);
 
         int finalAvailable = carDAO.selectAvailableCars().size();
         assertEquals(finalAvailable, initialAvailable-1);
@@ -54,11 +46,7 @@ class UserControllerTest {
         int initialAvailable = mopedDAO.selectAvailableMopeds().size();
 
         UserController userController = new UserController(user);
-        String simulatedInput = String.format("%s\n0\n0\n", initialAvailable);
-        InputStream originalSystemIn = System.in;
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-        userController.RentMoped();
-        System.setIn(originalSystemIn);
+        userController.rentVehicle("renttestplate", 0, 0,1);
 
         int finalAvailable = mopedDAO.selectAvailableMopeds().size();
         assertEquals(finalAvailable, initialAvailable-1);
@@ -78,11 +66,7 @@ class UserControllerTest {
         userDAO.insertUser("-", "-", 0, "-", "resettest", "pass1");
 
         UserController userController = new UserController(user);
-        String simulatedInput = "pass1\npass2\n";
-        InputStream originalSystemIn = System.in;
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-        userController.resetPassword();
-        System.setIn(originalSystemIn);
+        userController.resetPassword("pass1", "pass2");
 
         assertEquals(user.getPassword(), "pass2");
         User user1 = userDAO.getUser("resettest");

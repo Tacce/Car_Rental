@@ -10,45 +10,19 @@ import ORM.UserDAO;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class AdminController {
 
-    public void addCar() throws SQLException, ClassNotFoundException {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\nInserisci la targa: ");
-        String plate = scanner.nextLine();
-        System.out.println("Inserisci il modello: ");
-        String model = scanner.nextLine();
-        System.out.println("Inserisci il prezzo giornaliero: ");
-        float daily_price = scanner.nextInt();
-        scanner.nextLine();
-        System.out.println("Inserisci il numero di posti: ");
-        int nseats = scanner.nextInt();
-        scanner.nextLine();
-        System.out.println("Inserisci assicurazione (0 per default): ");
-        int assintance_id = scanner.nextInt();
-        scanner.nextLine();
-
+    public void addCar(String plate, String model, float dailyPrice, int nseats, int assintanceId)
+            throws SQLException, ClassNotFoundException {
         CarDAO carDAO = new CarDAO();
-        carDAO.insertCar(plate, model, daily_price, nseats, assintance_id);
+        carDAO.insertCar(plate, model, dailyPrice, nseats, assintanceId);
     }
 
-    public void addMoped() throws SQLException, ClassNotFoundException {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\nInserisci la targa: ");
-        String plate = scanner.nextLine();
-        System.out.println("Inserisci il modello: ");
-        String model = scanner.nextLine();
-        System.out.println("Inserisci il prezzo giornaliero: ");
-        float daily_price = scanner.nextInt();
-        scanner.nextLine();
-        System.out.println("Inserisci cilindrata: ");
-        int displacement = scanner.nextInt();
-        scanner.nextLine();
-
+    public void addMoped(String plate, String model, float dailyPrice, int displacement)
+            throws SQLException, ClassNotFoundException {
         MopedDAO mopedDAO = new MopedDAO();
-        mopedDAO.insertMoped(plate, model, daily_price,displacement);
+        mopedDAO.insertMoped(plate, model, dailyPrice,displacement);
     }
 
     public void viewAllVehicles() throws SQLException, ClassNotFoundException {
@@ -68,45 +42,24 @@ public class AdminController {
             Vehicle.printVehicleArray(mopeds);
     }
 
-
-    public void removeCar() throws SQLException, ClassNotFoundException {
+    public ArrayList<Vehicle> viewAllCars() throws SQLException, ClassNotFoundException {
         CarDAO carDAO = new CarDAO();
-        ArrayList<Vehicle> cars = carDAO.selectAllCars();
-        int n = cars.size();
-        if(n==0){
-            System.out.println("Nessun'auto registrata");
-            return;
-        }
-        Vehicle.printVehicleArray(cars);
-        Scanner scanner = new Scanner(System.in);
-        int x;
-        do{
-            System.out.println("Seleziona auto: ");
-            x = scanner.nextInt();
-            scanner.nextLine();
-        }while (x<0 || x>n);
-
-        carDAO.removeCar(cars.get(x-1).getPlate());
+        return carDAO.selectAllCars();
     }
 
-    public void removeMoped() throws SQLException, ClassNotFoundException {
-        MopedDAO mopedDAO = new MopedDAO();
-        ArrayList<Vehicle> mopeds = mopedDAO.selectAllMopeds();
-        int n = mopeds.size();
-        if(n==0){
-            System.out.println("Nessun motorino registrato");
-            return;
-        }
-        Vehicle.printVehicleArray(mopeds);
-        Scanner scanner = new Scanner(System.in);
-        int x;
-        do{
-            System.out.println("\nSeleziona auto: ");
-            x = scanner.nextInt();
-            scanner.nextLine();
-        }while (x<0 || x>n);
+    public void removeCar(String plate) throws SQLException, ClassNotFoundException {
+        CarDAO carDAO = new CarDAO();
+        carDAO.removeCar(plate);
+    }
 
-        mopedDAO.removeMoped(mopeds.get(x-1).getPlate());
+    public ArrayList<Vehicle> viewAllMopeds() throws SQLException, ClassNotFoundException {
+        MopedDAO mopedDAO = new MopedDAO();
+        return mopedDAO.selectAllMopeds();
+    }
+
+    public void removeMoped(String plate) throws SQLException, ClassNotFoundException {
+        MopedDAO mopedDAO = new MopedDAO();
+        mopedDAO.removeMoped(plate);
     }
 
     public void viewAllUsers() throws SQLException, ClassNotFoundException {
