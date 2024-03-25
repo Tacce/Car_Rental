@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class RentalDAO {
     public void insertRental(String username, String plate, int ndays, int pm, int code)
             throws SQLException, ClassNotFoundException {
-        Connection con = ConnectionManager.getConnection();
+        Connection con = ConnectionManager.getInstance().getConnection();
         String sql = String.format("INSERT INTO rentals (user_username,vehicle_plate, ndays, payment_method_id, vehicle_type)" +
                 "VALUES ('%s', '%s', '%d', '%d', '%d')", username, plate, ndays, pm, code);
         try{
@@ -34,11 +34,11 @@ public class RentalDAO {
     }
 
     private ArrayList<Rental> getRentals(String sql, User user) throws SQLException, ClassNotFoundException {
-        Connection con = ConnectionManager.getConnection();
+        Connection con = ConnectionManager.getInstance().getConnection();
         PreparedStatement ps = con.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
 
-        ArrayList<Rental> rentals = new ArrayList<Rental>();
+        ArrayList<Rental> rentals = new ArrayList<>();
         while (rs.next()) {
             String plate = rs.getString("vehicle_plate");
             int ndays = rs.getInt("ndays");
@@ -72,7 +72,7 @@ public class RentalDAO {
     }
 
     public void removeRental(String username, String plate) throws SQLException, ClassNotFoundException {
-        Connection con = ConnectionManager.getConnection();
+        Connection con = ConnectionManager.getInstance().getConnection();
         String sql = String.format("DELETE FROM rentals WHERE user_username='%s' AND vehicle_plate='%s'",
                 username, plate);
         try{
@@ -86,7 +86,7 @@ public class RentalDAO {
     }
 
     public void updateNDays(int newNDays, String username, String plate) throws SQLException, ClassNotFoundException {
-        Connection con = ConnectionManager.getConnection();
+        Connection con = ConnectionManager.getInstance().getConnection();
         String sql = String.format("UPDATE rentals SET ndays = '%d' WHERE user_username='%s' AND vehicle_plate='%s'",
                 newNDays, username, plate);
         try{

@@ -14,9 +14,9 @@ public class CarDAO extends VehicleDAO{
 
     public void insertCar(String plate, String model, float dailyPrice, int nseats, int assintanceId)
             throws SQLException, ClassNotFoundException {
-        Connection con = ConnectionManager.getConnection();
+        Connection con = ConnectionManager.getInstance().getConnection();
         String sql = String.format("INSERT INTO cars_view (plate, nseats, assistance_id, model, daily_price, available)" +
-                "VALUES ('%s', '%d', '%d', '%s', %s, true)",plate, nseats, assintanceId, model, String.valueOf(dailyPrice));
+                "VALUES ('%s', '%d', '%d', '%s', %s, true)",plate, nseats, assintanceId, model, dailyPrice);
         try{
             PreparedStatement ps = con.prepareStatement(sql);
             ps.executeUpdate();
@@ -38,11 +38,11 @@ public class CarDAO extends VehicleDAO{
     }
 
     private ArrayList<Vehicle> selectCars(String sql) throws SQLException, ClassNotFoundException {
-        Connection con = ConnectionManager.getConnection();
+        Connection con = ConnectionManager.getInstance().getConnection();
         PreparedStatement ps = con.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
 
-        ArrayList<Vehicle> cars = new ArrayList<Vehicle>();
+        ArrayList<Vehicle> cars = new ArrayList<>();
         while (rs.next()) {
             String plate = rs.getString("plate");
             int nseats = rs.getInt("nseats");
@@ -61,7 +61,7 @@ public class CarDAO extends VehicleDAO{
     }
 
     public void removeCar(String plate) throws SQLException, ClassNotFoundException {
-        Connection con = ConnectionManager.getConnection();
+        Connection con = ConnectionManager.getInstance().getConnection();
         String sql = String.format("DELETE FROM cars_view WHERE plate = '%s'",plate);
         try{
             PreparedStatement ps = con.prepareStatement(sql);
@@ -74,7 +74,7 @@ public class CarDAO extends VehicleDAO{
     }
 
     public Car getCar(String plate) throws SQLException, ClassNotFoundException {
-        Connection con = ConnectionManager.getConnection();
+        Connection con = ConnectionManager.getInstance().getConnection();
         String sql = String.format("SELECT * FROM cars_view join assistance on id=assistance_id WHERE plate='%s'", plate);
         PreparedStatement ps = con.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();

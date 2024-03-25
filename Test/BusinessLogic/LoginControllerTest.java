@@ -16,9 +16,21 @@ class LoginControllerTest {
 
     @Test
     void registerLoginTest() throws SQLException, ClassNotFoundException {
+        UserDAO userDAO = new UserDAO();
+        int intialUserSize = userDAO.selectAllUsers().size();
+
         LoginController loginController = new LoginController();
         loginController.register("testname","testsurname",0, "testcode",
                 "testusername","testpassword");
+
+        int finalUserSize = userDAO.selectAllUsers().size();
+        assertEquals(finalUserSize, intialUserSize + 1);
+
+        loginController.register("testname","testsurname",0, "testcode",
+                "testusername","testpassword");
+
+        int sameUsernameSize = userDAO.selectAllUsers().size();
+        assertEquals(sameUsernameSize, finalUserSize);
 
         User user = loginController.login("testusername","testpassword");
 
@@ -27,7 +39,6 @@ class LoginControllerTest {
         assertEquals(user.getLicenceCode(),"testcode");
         assertEquals(user.getAge(),0);
 
-        UserDAO userDAO = new UserDAO();
         userDAO.removeUser("testusername");
     }
 }

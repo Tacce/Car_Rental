@@ -8,7 +8,7 @@ public class UserDAO {
 
     public void insertUser(String name, String surname, int age, String license, String username, String password)
             throws SQLException, ClassNotFoundException {
-        Connection con = ConnectionManager.getConnection();
+        Connection con = ConnectionManager.getInstance().getConnection();
         String sql = String.format("INSERT INTO users (username, password, name, surname, age, license) VALUES "+
                         "('%s', '%s', '%s', '%s', %d, '%s')", username, password, name, surname, age, license);
         try{
@@ -22,7 +22,7 @@ public class UserDAO {
     }
 
     public User checkPassword(String username, String password) throws SQLException, ClassNotFoundException {
-        Connection con = ConnectionManager.getConnection();
+        Connection con = ConnectionManager.getInstance().getConnection();
         String sql = String.format("SELECT * FROM users WHERE username = '%s'", username);
         PreparedStatement ps = con.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
@@ -46,12 +46,12 @@ public class UserDAO {
     }
 
     public ArrayList<User> selectAllUsers() throws SQLException, ClassNotFoundException {
-        Connection con = ConnectionManager.getConnection();
+        Connection con = ConnectionManager.getInstance().getConnection();
         String sql = "SELECT * FROM users";
         PreparedStatement ps = con.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
 
-        ArrayList<User> users = new ArrayList<User>();
+        ArrayList<User> users = new ArrayList<>();
         while (rs.next()) {
             String name = rs.getString("name");
             String surname = rs.getString("surname");
@@ -68,7 +68,7 @@ public class UserDAO {
     }
 
     public User getUser(String username) throws SQLException, ClassNotFoundException {
-        Connection con = ConnectionManager.getConnection();
+        Connection con = ConnectionManager.getInstance().getConnection();
         String sql = String.format("SELECT * FROM users WHERE username = '%s'", username);
         PreparedStatement ps = con.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
@@ -86,7 +86,7 @@ public class UserDAO {
     }
 
     public void removeUser(String username) throws SQLException, ClassNotFoundException {
-        Connection con = ConnectionManager.getConnection();
+        Connection con = ConnectionManager.getInstance().getConnection();
         String sql = String.format("DELETE FROM users WHERE username = '%s'", username);
         try{
             PreparedStatement ps = con.prepareStatement(sql);
@@ -99,7 +99,7 @@ public class UserDAO {
     }
 
     public void updatePassword(String username, String newPassword) throws SQLException, ClassNotFoundException {
-        Connection con = ConnectionManager.getConnection();
+        Connection con = ConnectionManager.getInstance().getConnection();
         String sql = String.format("UPDATE users SET password = '%s' WHERE username='%s'",newPassword, username);
         try{
             PreparedStatement ps = con.prepareStatement(sql);

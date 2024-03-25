@@ -1,8 +1,6 @@
 package ORM;
 
-import DomainModel.Car;
 import DomainModel.Moped;
-import DomainModel.RoadsideAssistance;
 import DomainModel.Vehicle;
 
 import java.sql.Connection;
@@ -13,9 +11,9 @@ import java.util.ArrayList;
 
 public class MopedDAO extends VehicleDAO{
     public void insertMoped(String plate, String model, float dailyPrice, int displacement) throws SQLException, ClassNotFoundException {
-        Connection con = ConnectionManager.getConnection();
+        Connection con = ConnectionManager.getInstance().getConnection();
         String sql = String.format("INSERT INTO mopeds_view (plate, model, daily_price, displacement, available)" +
-                "VALUES ('%s','%s','%s','%d',true)",plate, model, String.valueOf(dailyPrice), displacement);
+                "VALUES ('%s','%s','%s','%d',true)",plate, model, dailyPrice, displacement);
         try{
             PreparedStatement ps = con.prepareStatement(sql);
             ps.executeUpdate();
@@ -37,11 +35,11 @@ public class MopedDAO extends VehicleDAO{
     }
 
     private ArrayList<Vehicle> selectMopeds(String sql) throws SQLException, ClassNotFoundException {
-        Connection con = ConnectionManager.getConnection();
+        Connection con = ConnectionManager.getInstance().getConnection();
         PreparedStatement ps = con.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
 
-        ArrayList<Vehicle> mopeds = new ArrayList<Vehicle>();
+        ArrayList<Vehicle> mopeds = new ArrayList<>();
 
         while (rs.next()) {
             String plate = rs.getString("plate");
@@ -58,7 +56,7 @@ public class MopedDAO extends VehicleDAO{
     }
 
     public void removeMoped(String plate) throws SQLException, ClassNotFoundException {
-        Connection con = ConnectionManager.getConnection();
+        Connection con = ConnectionManager.getInstance().getConnection();
         String sql = String.format("DELETE FROM mopeds_view WHERE plate = '%s'",plate);
         try{
             PreparedStatement ps = con.prepareStatement(sql);
@@ -71,7 +69,7 @@ public class MopedDAO extends VehicleDAO{
     }
 
     public Moped getMoped(String plate) throws SQLException, ClassNotFoundException {
-        Connection con = ConnectionManager.getConnection();
+        Connection con = ConnectionManager.getInstance().getConnection();
         String sql = String.format("SELECT * FROM mopeds_view WHERE plate='%s'", plate);
         PreparedStatement ps = con.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
