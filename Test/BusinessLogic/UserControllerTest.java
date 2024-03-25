@@ -22,7 +22,7 @@ class UserControllerTest {
         int initialAvailable = carDAO.selectAvailableCars().size();
 
         UserController userController = new UserController(user);
-        userController.rentVehicle("renttestplate", 0, 0,0);
+        userController.rentCar("renttestplate", 0, 0);
 
         int finalAvailable = carDAO.selectAvailableCars().size();
         assertEquals(finalAvailable, initialAvailable-1);
@@ -46,7 +46,7 @@ class UserControllerTest {
         int initialAvailable = mopedDAO.selectAvailableMopeds().size();
 
         UserController userController = new UserController(user);
-        userController.rentVehicle("renttestplate", 0, 0,1);
+        userController.rentMoped("renttestplate", 0, 0);
 
         int finalAvailable = mopedDAO.selectAvailableMopeds().size();
         assertEquals(finalAvailable, initialAvailable-1);

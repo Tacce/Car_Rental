@@ -11,23 +11,6 @@ public class UserController {
 
     public UserController(User myUser) {this.myUser = myUser;}
 
-    public void viewAvailableVehicles() throws SQLException, ClassNotFoundException {
-        CarDAO carDAO = new CarDAO();
-        ArrayList<Vehicle> cars = carDAO.selectAvailableCars();
-        System.out.println("\nAUTOMOBILI\n");
-        if (cars.size()==0){
-            System.out.println("Nessun'auto disponibile");
-        }else
-            Vehicle.printVehicleArray(cars);
-        MopedDAO mopedDAO = new MopedDAO();
-        ArrayList<Vehicle> mopeds = mopedDAO.selectAvailableMopeds();
-        System.out.println("\nMOTORINI\n");
-        if (mopeds.size()==0){
-            System.out.println("Nessun motorino disponibile");
-        }else
-            Vehicle.printVehicleArray(mopeds);
-    }
-
     public ArrayList<Vehicle> viewAvailableCars() throws SQLException, ClassNotFoundException {
         CarDAO carDAO = new CarDAO();
         return carDAO.selectAvailableCars();
@@ -38,7 +21,15 @@ public class UserController {
         return mopedDAO.selectAvailableMopeds();
     }
 
-    public void rentVehicle(String plate, int ndays, int pm, int code) throws SQLException, ClassNotFoundException {
+    public void rentCar(String plate, int ndays, int pm) throws SQLException, ClassNotFoundException {
+        rentVehicle(plate, ndays, pm, 0);
+    }
+
+    public void rentMoped(String plate, int ndays, int pm) throws SQLException, ClassNotFoundException {
+        rentVehicle(plate, ndays, pm, 1);
+    }
+
+    private void rentVehicle(String plate, int ndays, int pm, int code) throws SQLException, ClassNotFoundException {
         RentalDAO rentalDAO = new RentalDAO();
         rentalDAO.insertRental(myUser.getUsername(), plate, ndays, pm, code);
         VehicleDAO vehicleDAO = new VehicleDAO();
@@ -59,4 +50,5 @@ public class UserController {
         userDAO.updatePassword(myUser.getUsername(), newPassword);
         myUser.setPassword(newPassword);
     }
+
 }

@@ -1,5 +1,7 @@
 import BusinessLogic.*;
 import DomainModel.*;
+import ORM.MopedDAO;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -89,8 +91,21 @@ public class Main {
             x = scanner.nextLine();
             switch (x) {
                 case "0":
-                    uc.viewAvailableVehicles();
+                    //uc.viewAvailableVehicles();
+                    ArrayList<Vehicle> carsView = uc.viewAvailableCars();
+                    System.out.println("\nAUTOMOBILI\n");
+                    if (carsView.size()==0){
+                        System.out.println("Nessun'auto disponibile");
+                    }else
+                        Vehicle.printVehicleArray(carsView);
+                    ArrayList<Vehicle> mopedsView = uc.viewAvailableMopeds();
+                    System.out.println("\nMOTORINI\n");
+                    if (mopedsView.size()==0){
+                        System.out.println("Nessun motorino disponibile");
+                    }else
+                        Vehicle.printVehicleArray(mopedsView);
                     break;
+
                 case "1":
 
                     ArrayList<Vehicle> cars = uc.viewAvailableCars();
@@ -112,7 +127,7 @@ public class Main {
                     System.out.println("Inserisci il metodo di pagamento (0-Contanti 1-Carta di Credito): ");
                     int pmCar = scanner.nextInt();
                     scanner.nextLine();
-                    uc.rentVehicle(cars.get(i-1).getPlate(), ndaysCar, pmCar, 0);
+                    uc.rentCar(cars.get(i-1).getPlate(), ndaysCar, pmCar);
                     break;
 
                 case "2":
@@ -136,7 +151,7 @@ public class Main {
                     System.out.println("Inserisci il metodo di pagamento (0-Contanti 1-Carta di Credito): ");
                     int pmMoped = scanner.nextInt();
                     scanner.nextLine();
-                    uc.rentVehicle(mopeds.get(j-1).getPlate(), ndaysMoped, pmMoped, 0);
+                    uc.rentMoped(mopeds.get(j-1).getPlate(), ndaysMoped, pmMoped);
                     break;
 
                 case "3":
@@ -239,8 +254,21 @@ public class Main {
 
             switch (x) {
                 case "0":
-                    ac.viewAllVehicles();
+                    //ac.viewAllVehicles();
+                    ArrayList<Vehicle> carsView = ac.viewAllCars();
+                    System.out.println("\nAUTOMOBILI\n");
+                    if (carsView.size()==0){
+                        System.out.println("Nessun'auto registrata");
+                    }else
+                        Vehicle.printVehicleArray(carsView);
+                    ArrayList<Vehicle> mopedsView = ac.viewAllMopeds();
+                    System.out.println("\nMOTORINI\n");
+                    if (mopedsView.size()==0){
+                        System.out.println("Nessun motorino registrato");
+                    }else
+                        Vehicle.printVehicleArray(mopedsView);
                     break;
+
                 case "1":
 
                     System.out.println("\nInserisci la targa: ");
@@ -311,11 +339,34 @@ public class Main {
                     break;
 
                 case "5":
-                    ac.viewAllUsers();
+
+                    ArrayList<User> users = ac.viewAllUsers();;
+                    if(users.size()==0){
+                        System.out.println("Nessun utente registrato");
+                        return;
+                    }
+                    int u = 1;
+                    System.out.println("\nUTENTI\n");
+                    for(User user:users){
+                        System.out.printf("%d) " + user.getInfo() +"\n", u);
+                        u++;
+                    }
                     break;
+
                 case "6":
-                    ac.viewAllRentals();
+
+                    ArrayList<Rental> rentals = ac.viewAllRentals();;
+                    if(rentals.size()==0){
+                        System.out.println("Nessuna prenotazione registrata");
+                        return;
+                    }
+                    int r = 1;
+                    for(Rental rental:rentals){
+                        System.out.printf("%d) " + rental.getInfo() +"\n", r);
+                        r++;
+                    }
                     break;
+
                 case "-1":
                     break label;
                 default:
