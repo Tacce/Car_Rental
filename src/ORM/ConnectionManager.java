@@ -10,7 +10,7 @@ public class ConnectionManager {
 
     private static ConnectionManager instance = null;
 
-    public ConnectionManager(){}
+    private ConnectionManager(){}
 
     public static ConnectionManager getInstance() {
         if (instance == null)
